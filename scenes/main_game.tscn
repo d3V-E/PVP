@@ -4,9 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://c1atwek875286" path="res://assets/Main Background.png" id="2_0rdsr"]
 [ext_resource type="Texture2D" uid="uid://dg2ea4dwk6x86" path="res://assets/Heal.png" id="3_ipu61"]
 [ext_resource type="Texture2D" uid="uid://cgsqxivkrwi8s" path="res://assets/Damage.png" id="4_ygxny"]
-[ext_resource type="Texture2D" uid="uid://crfloxftcbkku" path="res://assets/Header.png" id="5_ipu61"]
+[ext_resource type="Texture2D" uid="uid://dk3bbvafo12q3" path="res://assets/Header Players.png" id="5_70vka"]
+[ext_resource type="FontFile" uid="uid://duhqq80b2uj1p" path="res://assets/MedievalSharp-Regular.ttf" id="6_2l77h"]
 [ext_resource type="Texture2D" uid="uid://dp80kygpyh5xh" path="res://assets/Breaker Line.png" id="6_ygxny"]
 [ext_resource type="Texture2D" uid="uid://bogipqc3l3ya7" path="res://assets/Holder .png" id="7_wi4c7"]
+[ext_resource type="Texture2D" uid="uid://dft0gt057vkrk" path="res://assets/Pointer.png" id="9_2l77h"]
 
 [node name="Main Game" type="Node2D" unique_id=447927896]
 script = ExtResource("1_s3esy")
@@ -29,8 +31,47 @@ texture = ExtResource("4_ygxny")
 
 [node name="Header" type="Sprite2D" parent="Main Canvas" unique_id=795250219]
 position = Vector2(640, 76)
-scale = Vector2(1, 1.52)
-texture = ExtResource("5_ipu61")
+texture = ExtResource("5_70vka")
+
+[node name="Header Player 1" type="RichTextLabel" parent="Main Canvas/Header" unique_id=1550522902]
+offset_left = -634.0
+offset_top = -67.0
+offset_right = -455.0
+offset_bottom = -21.0
+theme_override_fonts/normal_font = ExtResource("6_2l77h")
+theme_override_font_sizes/normal_font_size = 40
+text = "PLAYER 1"
+vertical_alignment = 1
+
+[node name="Header Player 2" type="RichTextLabel" parent="Main Canvas/Header" unique_id=140573086]
+offset_left = 14.0
+offset_top = -67.0
+offset_right = 193.0
+offset_bottom = -21.0
+theme_override_fonts/normal_font = ExtResource("6_2l77h")
+theme_override_font_sizes/normal_font_size = 40
+text = "PLAYER 2"
+vertical_alignment = 1
+
+[node name="Player 1 Health" type="RichTextLabel" parent="Main Canvas/Header" unique_id=1920004960]
+offset_left = -529.0
+offset_top = -17.0
+offset_right = -29.0
+offset_bottom = 67.0
+theme_override_fonts/normal_font = ExtResource("6_2l77h")
+theme_override_font_sizes/normal_font_size = 60
+text = "1000 / 1000"
+vertical_alignment = 1
+
+[node name="Player 2 Health" type="RichTextLabel" parent="Main Canvas/Header" unique_id=1282813028]
+offset_left = 119.0
+offset_top = -17.0
+offset_right = 619.0
+offset_bottom = 67.0
+theme_override_fonts/normal_font = ExtResource("6_2l77h")
+theme_override_font_sizes/normal_font_size = 60
+text = "1000 / 1000"
+vertical_alignment = 1
 
 [node name="BreakerLine" type="Sprite2D" parent="Main Canvas" unique_id=2076992853]
 position = Vector2(640, 154)
@@ -105,3 +146,22 @@ offset_top = 446.0
 offset_right = 1115.0
 offset_bottom = 696.0
 texture_normal = ExtResource("7_wi4c7")
+
+[node name="Pointer1" type="Sprite2D" parent="Main Canvas" unique_id=1011917625]
+position = Vector2(54, 98)
+scale = Vector2(2.375, 2.375)
+texture = ExtResource("9_2l77h")
+
+[node name="Pointer2" type="Sprite2D" parent="Main Canvas" unique_id=523819324]
+position = Vector2(702.00006, 98)
+scale = Vector2(2.375, 2.375)
+texture = ExtResource("9_2l77h")
+
+[node name="AutoUpdate" type="Timer" parent="Main Canvas" unique_id=1583954011]
+autostart = true
+
+[connection signal="button_down" from="Main Canvas/Strike" to="." method="_on_strike_button_down"]
+[connection signal="button_up" from="Main Canvas/Strike" to="." method="_on_strike_button_up"]
+[connection signal="button_down" from="Main Canvas/Vampire" to="." method="_on_vampire_button_down"]
+[connection signal="button_up" from="Main Canvas/Vampire" to="." method="_on_vampire_button_up"]
+[connection signal="timeout" from="Main Canvas/AutoUpdate" to="." method="_on_auto_update_timeout"]

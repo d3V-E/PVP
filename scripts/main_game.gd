@@ -2,7 +2,8 @@ extends Node2D
 
 
 
-
+@onready var pointerp1:Sprite2D = $"Main Canvas/Pointer1"
+@onready var pointerp2:Sprite2D = $"Main Canvas/Pointer2"
 @onready var healbackground:Sprite2D = $"Main Canvas/Heal"
 @onready var dmgbackground:Sprite2D = $"Main Canvas/Damage"
 @onready var strike:TextureButton = $"Main Canvas/Strike"
@@ -14,23 +15,132 @@ extends Node2D
 @onready var minipotion:TextureButton = $"Main Canvas/Mini poison"
 @onready var plague:TextureButton = $"Main Canvas/Plague"
 @onready var boost:TextureButton = $"Main Canvas/Boost"
-@onready var sheidl :TextureButton = $"Main Canvas/Sheild"
+@onready var sheild :TextureButton = $"Main Canvas/Sheild"
 
+@onready var p1ht : RichTextLabel = $"Main Canvas/Header/Player 1 Health"
+@onready var p2ht:RichTextLabel = $"Main Canvas/Header/Player 2 Health"
+
+var player1h = 500
+var player2h = 500
+var player1max = 1000
+var player2max = 1000
+var turn = "PLAYER1"
+var player1boost = 1
+var player2boost = 1
+var strikedmg = 75
+var vampiredmg = 65
+var vampireheal = 35
+var vampirep1 = 0
+var vampirep2 = 0
 
 
 func _ready():
 	healbackground.visible = false
 	dmgbackground.visible = false
+	strike.pivot_offset = strike.size / 2
+	vampire.pivot_offset = vampire.size / 2
+	meteor.pivot_offset = meteor.size / 2
+	quickheal.pivot_offset = quickheal.size / 2
+	clean.pivot_offset = clean.size / 2
+	light.pivot_offset = light.size / 2
+	minipotion.pivot_offset = minipotion.size / 2
+	plague.pivot_offset = plague.size / 2
+	boost.pivot_offset = boost.size / 2
+	sheild.pivot_offset = sheild.size / 2
+	update_ui()
+	p1ht.text = str(player1h) + " / " + str(player1max)
+	p2ht.text = str(player2h) + " / " + str(player2max)
 
 
 
 func damageanim():
 	dmgbackground.visible = true
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(0.2).timeout
 	dmgbackground.visible = false
 
 
 func healanim():
 	healbackground.visible = true
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(0.2).timeout
 	healbackground.visible = false
+
+
+
+
+
+
+
+func _on_strike_button_down():
+	var tween = get_tree().create_tween()
+	tween.tween_property(strike , "scale" , Vector2(.9 ,.9), .1)
+
+
+
+
+
+func _on_strike_button_up():
+	var tween = get_tree().create_tween()
+	tween.tween_property(strike , "scale" , Vector2(1 , 1) , .1)
+	if turn == "PLAYER1":
+		player2h -= 75
+		p2ht.text = str(player2h) + " / " + str(player2max)
+		damageanim()
+		turn = "PLAYER2"
+		update_ui()
+	elif turn == "PLAYER2":
+		player1h -= 75
+		p1ht.text = str(player1h) + " / " + str(player1max)
+		damageanim()
+		turn = "PLAYER1"
+		update_ui()
+
+
+
+func update_ui():
+	p1ht.text = str(player1h) + " / " + str(player1max)
+	p2ht.text = str(player2h) + " / " + str(player2max)
+	if turn == "PLAYER1":
+		pointerp1.visible = true
+		pointerp2.visible = false
+	elif turn == "PLAYER2":
+		pointerp1.visible = false
+		pointerp2.visible = true
+
+
+
+
+
+func _on_auto_update_timeout():
+	update_ui()
+
+
+
+
+
+
+func _on_vampire_button_down():
+	if turn == "PLAYER1" and vampirep1 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(vampire , "scale" , Vector2(.9 ,.9) , .1)
+	if turn == "PLAYER2" and vampirep2 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(vampire , "scale" , Vector2(.9 ,.9) ,.1)
+
+
+
+
+
+
+func _on_vampire_button_up():
+	if turn == "PLAYER1" and vampirep1 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(vampire , "scale" , Vector2(1 ,1) , .1)
+		player1h += vampireheal
+		player2h -= vampiredmg
+		vampirep1 = 2
+	if turn == "PLAYER2" and vampirep2 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(vampire , "scale" , Vector2(1 ,1) ,.1)
+		player2h += vampireheal
+		player1h -= vampiredmg
+		vampirep2 = 2
