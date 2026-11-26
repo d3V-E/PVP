@@ -1,0 +1,107 @@
+[gd_scene format=3 uid="uid://bl08qco3twe7o"]
+
+[ext_resource type="Script" uid="uid://cik1qtr7y60m1" path="res://scripts/main_game.gd" id="1_s3esy"]
+[ext_resource type="Texture2D" uid="uid://c1atwek875286" path="res://assets/Main Background.png" id="2_0rdsr"]
+[ext_resource type="Texture2D" uid="uid://dg2ea4dwk6x86" path="res://assets/Heal.png" id="3_ipu61"]
+[ext_resource type="Texture2D" uid="uid://cgsqxivkrwi8s" path="res://assets/Damage.png" id="4_ygxny"]
+[ext_resource type="Texture2D" uid="uid://crfloxftcbkku" path="res://assets/Header.png" id="5_ipu61"]
+[ext_resource type="Texture2D" uid="uid://dp80kygpyh5xh" path="res://assets/Breaker Line.png" id="6_ygxny"]
+[ext_resource type="Texture2D" uid="uid://bogipqc3l3ya7" path="res://assets/Holder .png" id="7_wi4c7"]
+
+[node name="Main Game" type="Node2D" unique_id=447927896]
+script = ExtResource("1_s3esy")
+
+[node name="Main Canvas" type="CanvasLayer" parent="." unique_id=229662032]
+
+[node name="MainBackground" type="Sprite2D" parent="Main Canvas" unique_id=1880530055]
+position = Vector2(640, 360)
+texture = ExtResource("2_0rdsr")
+
+[node name="Heal" type="Sprite2D" parent="Main Canvas" unique_id=731904387]
+visible = false
+position = Vector2(640, 360)
+texture = ExtResource("3_ipu61")
+
+[node name="Damage" type="Sprite2D" parent="Main Canvas" unique_id=1548757575]
+visible = false
+position = Vector2(640, 360)
+texture = ExtResource("4_ygxny")
+
+[node name="Header" type="Sprite2D" parent="Main Canvas" unique_id=795250219]
+position = Vector2(640, 76)
+scale = Vector2(1, 1.52)
+texture = ExtResource("5_ipu61")
+
+[node name="BreakerLine" type="Sprite2D" parent="Main Canvas" unique_id=2076992853]
+position = Vector2(640, 154)
+texture = ExtResource("6_ygxny")
+
+[node name="Strike" type="TextureButton" parent="Main Canvas" unique_id=310836473]
+offset_left = 159.0
+offset_top = 182.0
+offset_right = 339.0
+offset_bottom = 432.0
+texture_normal = ExtResource("7_wi4c7")
+
+[node name="Vampire" type="TextureButton" parent="Main Canvas" unique_id=1246157631]
+offset_left = 159.0
+offset_top = 446.0
+offset_right = 339.0
+offset_bottom = 696.0
+texture_normal = ExtResource("7_wi4c7")
+
+[node name="Meteor" type="TextureButton" parent="Main Canvas" unique_id=2117202653]
+offset_left = 353.0
+offset_top = 182.0
+offset_right = 533.0
+offset_bottom = 432.0
+texture_normal = ExtResource("7_wi4c7")
+
+[node name="Quick Heal" type="TextureButton" parent="Main Canvas" unique_id=1715524697]
+offset_left = 353.0
+offset_top = 446.0
+offset_right = 533.0
+offset_bottom = 696.0
+texture_normal = ExtResource("7_wi4c7")
+
+[node name="Clean" type="TextureButton" parent="Main Canvas" unique_id=1250342520]
+offset_left = 547.0
+offset_top = 182.0
+offset_right = 727.0
+offset_bottom = 432.0
+texture_normal = ExtResource("7_wi4c7")
+
+[node name="Light" type="TextureButton" parent="Main Canvas" unique_id=280840513]
+offset_left = 547.0
+offset_top = 446.0
+offset_right = 727.0
+offset_bottom = 696.0
+texture_normal = ExtResource("7_wi4c7")
+
+[node name="Mini poison" type="TextureButton" parent="Main Canvas" unique_id=125551378]
+offset_left = 741.0
+offset_top = 182.0
+offset_right = 921.0
+offset_bottom = 432.0
+texture_normal = ExtResource("7_wi4c7")
+
+[node name="Plague" type="TextureButton" parent="Main Canvas" unique_id=1301612013]
+offset_left = 741.0
+offset_top = 446.0
+offset_right = 921.0
+offset_bottom = 696.0
+texture_normal = ExtResource("7_wi4c7")
+
+[node name="Boost" type="TextureButton" parent="Main Canvas" unique_id=670600422]
+offset_left = 935.0
+offset_top = 182.0
+offset_right = 1115.0
+offset_bottom = 432.0
+texture_normal = ExtResource("7_wi4c7")
+
+[node name="Sheild" type="TextureButton" parent="Main Canvas" unique_id=1549487403]
+offset_left = 935.0
+offset_top = 446.0
+offset_right = 1115.0
+offset_bottom = 696.0
+texture_normal = ExtResource("7_wi4c7")
