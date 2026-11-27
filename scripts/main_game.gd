@@ -27,12 +27,21 @@ var player2max = 1000
 var turn = "PLAYER1"
 var player1boost = 1
 var player2boost = 1
+
+
 var strikedmg = 75
+
+
 var vampiredmg = 65
 var vampireheal = 35
 var vampirep1 = 0
 var vampirep2 = 0
 
+var meteordmg = 150
+var meteorp1 = 0
+var meteorp2 = 0
+
+var quickhealc = 50
 
 func _ready():
 	healbackground.visible = false
@@ -48,6 +57,7 @@ func _ready():
 	boost.pivot_offset = boost.size / 2
 	sheild.pivot_offset = sheild.size / 2
 	vampire.self_modulate = Color(1.0 , 1.0 , 1.0 , 1.0)
+	meteor.self_modulate = Color(1.0 ,1.0 , 1.0 , 1.0)
 	update_ui()
 	p1ht.text = str(player1h) + " / " + str(player1max)
 	p2ht.text = str(player2h) + " / " + str(player2max)
@@ -109,6 +119,13 @@ func update_ui():
 			vampire.self_modulate = Color(0.3 , 0.3 , 0.3 , 1.0)
 		else:
 			vampire.self_modulate = Color(1.0 , 1.0 , 1.0 , 1.0)
+	
+		if meteorp1 > 0:
+			meteor.self_modulate = Color(0.3 , 0.3 , 0.3 , 1.0)
+		else:
+			meteor.self_modulate = Color(1.0 , 1.0 , 1.0 , 1.0)
+	
+	
 	elif turn == "PLAYER2":
 		pointerp1.visible = false
 		pointerp2.visible = true
@@ -116,6 +133,11 @@ func update_ui():
 			vampire.self_modulate = Color(0.3 , 0.3 , 0.3 , 1.0)
 		else:
 			vampire.self_modulate = Color(1.0 , 1.0 , 1.0 , 1.0)
+	
+		if meteorp2 > 0:
+			meteor.self_modulate = Color(0.3 ,0.3 , 0.3 , 1.0)
+		else:
+			meteor.self_modulate = Color(1.0 , 1.0 , 1.0 , 1.0 )
 
 
 
@@ -174,6 +196,85 @@ func turncooldown():
 	if turn == "PLAYER1":
 		if vampirep1 > 0:
 			vampirep1 -= 1
+		
+		if meteorp1 > 0:
+			meteorp1 -= 1
 	elif turn == "PLAYER2":
 		if vampirep2 > 0:
 			vampirep2 -= 1
+		
+		if meteorp2 > 0 :
+			meteorp2 -= 1
+
+
+
+
+
+
+
+
+
+
+
+func _on_meteor_button_down():
+	if turn == "PLAYER1" and meteorp1 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(meteor , "scale" , Vector2(.9 ,.9) , .1)
+	if turn == "PLAYER2" and meteorp2 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(meteor , "scale" , Vector2(.9 ,.9) ,.1)
+
+
+
+
+
+func _on_meteor_button_up():
+	if turn == "PLAYER1" and meteorp1 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(meteorp2 , "scale" , Vector2(1 ,1) , .1)
+		player2h -= meteordmg
+		meteorp1 = 4
+		turncooldown()
+		turn = "PLAYER2"
+		update_ui()
+		damageanim()
+	
+	
+	elif turn == "PLAYER2" and meteorp2 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(meteor , "scale" , Vector2(1 ,1) ,.1)
+		player1h -= meteordmg
+		meteorp2 = 2
+		turncooldown()
+		turn = "PLAYER1"
+		update_ui()
+		damageanim()
+
+
+
+
+func _on_quick_heal_button_down():
+	var tween = get_tree().create_tween()
+	tween.tween_property(quickheal , "scale" , Vector2(.9 ,.9) , .1)
+
+
+
+
+
+func _on_quick_heal_button_up():
+	var tween = get_tree().create_tween()
+	tween.tween_property(quickheal , "scale" , Vector2(1 , 1) , .1)
+	if turn == "PLAYER1":
+		player1h += 50
+		p1ht.text = str(player1h) + " / " + str(player1max)
+		healanim()
+		turncooldown()
+		turn = "PLAYER2"
+		update_ui()
+	elif turn == "PLAYER2":
+		player2h += 50
+		p2ht.text = str(player2h) + " / " + str(player2max)
+		healanim()
+		turncooldown()
+		turn = "PLAYER1"
+		update_ui()

@@ -164,4 +164,8 @@ autostart = true
 [connection signal="button_up" from="Main Canvas/Strike" to="." method="_on_strike_button_up"]
 [connection signal="button_down" from="Main Canvas/Vampire" to="." method="_on_vampire_button_down"]
 [connection signal="button_up" from="Main Canvas/Vampire" to="." method="_on_vampire_button_up"]
+[connection signal="button_down" from="Main Canvas/Meteor" to="." method="_on_meteor_button_down"]
+[connection signal="button_up" from="Main Canvas/Meteor" to="." method="_on_meteor_button_up"]
+[connection signal="button_down" from="Main Canvas/Quick Heal" to="." method="_on_quick_heal_button_down"]
+[connection signal="button_up" from="Main Canvas/Quick Heal" to="." method="_on_quick_heal_button_up"]
 [connection signal="timeout" from="Main Canvas/AutoUpdate" to="." method="_on_auto_update_timeout"]
