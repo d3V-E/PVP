@@ -47,6 +47,7 @@ func _ready():
 	plague.pivot_offset = plague.size / 2
 	boost.pivot_offset = boost.size / 2
 	sheild.pivot_offset = sheild.size / 2
+	vampire.self_modulate = Color(1.0 , 1.0 , 1.0 , 1.0)
 	update_ui()
 	p1ht.text = str(player1h) + " / " + str(player1max)
 	p2ht.text = str(player2h) + " / " + str(player2max)
@@ -85,12 +86,14 @@ func _on_strike_button_up():
 		player2h -= 75
 		p2ht.text = str(player2h) + " / " + str(player2max)
 		damageanim()
+		turncooldown()
 		turn = "PLAYER2"
 		update_ui()
 	elif turn == "PLAYER2":
 		player1h -= 75
 		p1ht.text = str(player1h) + " / " + str(player1max)
 		damageanim()
+		turncooldown()
 		turn = "PLAYER1"
 		update_ui()
 
@@ -102,10 +105,17 @@ func update_ui():
 	if turn == "PLAYER1":
 		pointerp1.visible = true
 		pointerp2.visible = false
+		if vampirep1 > 0:
+			vampire.self_modulate = Color(0.3 , 0.3 , 0.3 , 1.0)
+		else:
+			vampire.self_modulate = Color(1.0 , 1.0 , 1.0 , 1.0)
 	elif turn == "PLAYER2":
 		pointerp1.visible = false
 		pointerp2.visible = true
-
+		if vampirep2 > 0:
+			vampire.self_modulate = Color(0.3 , 0.3 , 0.3 , 1.0)
+		else:
+			vampire.self_modulate = Color(1.0 , 1.0 , 1.0 , 1.0)
 
 
 
@@ -138,9 +148,32 @@ func _on_vampire_button_up():
 		player1h += vampireheal
 		player2h -= vampiredmg
 		vampirep1 = 2
-	if turn == "PLAYER2" and vampirep2 == 0:
+		turncooldown()
+		turn = "PLAYER2"
+		update_ui()
+		healanim()
+		damageanim()
+	
+	
+	
+	elif turn == "PLAYER2" and vampirep2 == 0:
 		var tween = get_tree().create_tween()
 		tween.tween_property(vampire , "scale" , Vector2(1 ,1) ,.1)
 		player2h += vampireheal
 		player1h -= vampiredmg
 		vampirep2 = 2
+		turncooldown()
+		turn = "PLAYER1"
+		update_ui()
+		healanim()
+		damageanim()
+
+
+
+func turncooldown():
+	if turn == "PLAYER1":
+		if vampirep1 > 0:
+			vampirep1 -= 1
+	elif turn == "PLAYER2":
+		if vampirep2 > 0:
+			vampirep2 -= 1
