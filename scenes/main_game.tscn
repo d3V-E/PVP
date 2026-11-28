@@ -168,4 +168,8 @@ autostart = true
 [connection signal="button_up" from="Main Canvas/Meteor" to="." method="_on_meteor_button_up"]
 [connection signal="button_down" from="Main Canvas/Quick Heal" to="." method="_on_quick_heal_button_down"]
 [connection signal="button_up" from="Main Canvas/Quick Heal" to="." method="_on_quick_heal_button_up"]
+[connection signal="button_down" from="Main Canvas/Clean" to="." method="_on_clean_button_down"]
+[connection signal="button_up" from="Main Canvas/Clean" to="." method="_on_clean_button_up"]
+[connection signal="button_down" from="Main Canvas/Light" to="." method="_on_light_button_down"]
+[connection signal="button_up" from="Main Canvas/Light" to="." method="_on_light_button_up"]
 [connection signal="timeout" from="Main Canvas/AutoUpdate" to="." method="_on_auto_update_timeout"]
