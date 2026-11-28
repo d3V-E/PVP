@@ -53,6 +53,19 @@ var lightheal = 125
 var lightcp1 = 0
 var lightcp2 = 0
 
+var posionpassive = 20
+var posioncountp1 = 0
+var poisoncountp2 = 0
+
+var posioncdp1 = 0
+var posioncdp2 = 0
+
+var plaguedmg = 75
+var plaguetimep1 = 0
+var plaguetimep2 = 0
+
+var plaguecdp1 = 0
+var plaguecdp2 = 0
 
 func _ready():
 	healbackground.visible = false
@@ -71,6 +84,8 @@ func _ready():
 	meteor.self_modulate = Color(1.0 ,1.0 , 1.0 , 1.0)
 	clean.self_modulate = Color(1.0 , 1.0 , 1.0 , 1.0)
 	light.self_modulate = Color(1.0 , 1.0 , 1.0 , 1.0)
+	minipotion.self_modulate = Color(1.0 , 1.0 , 1.0 , 1.0)
+	plague.self_modulate = Color(1.0 , 1.0 , 1.0 , 1.0)
 	update_ui()
 	p1ht.text = str(player1h) + " / " + str(player1max)
 	p2ht.text = str(player2h) + " / " + str(player2max)
@@ -147,6 +162,16 @@ func update_ui():
 			light.self_modulate = Color(0.3 , 0.3 , 0.3 , 1.0)
 		else:
 			light.self_modulate = Color(1.0 , 1.0 , 1.0 , 1.0)
+		
+		if posioncdp1 > 0:
+			minipotion.self_modulate = Color(0.3 , 0.3 , 0.3 , 1.0)
+		else:
+			minipotion.self_modulate = Color(1.0 , 1.0 , 1.0, 1.0)
+		
+		if plaguecdp1 > 0:
+			plague.self_modulate = Color(0.3 , 0.3 , 0.3 , 1.0)
+		else:
+			plague.self_modulate = Color(1.0 , 1.0 , 1.0, 1.0)
 	
 	
 	elif turn == "PLAYER2":
@@ -171,6 +196,16 @@ func update_ui():
 			light.self_modulate = Color(0.3 , 0.3 , 0.3 , 1.0)
 		else:
 			light.self_modulate = Color(1.0 , 1.0 , 1.0 , 1.0)
+		
+		if posioncdp2 > 0:
+			minipotion.self_modulate = Color(0.3 , 0.3 , 0.3 , 1.0)
+		else:
+			minipotion.self_modulate = Color(1.0 , 1.0 , 1.0, 1.0)
+		
+		if plaguecdp2 > 0:
+			plague.self_modulate = Color(0.3 , 0.3 , 0.3 , 1.0)
+		else:
+			plague.self_modulate = Color(1.0 , 1.0 , 1.0, 1.0)
 
 
 
@@ -235,6 +270,21 @@ func turncooldown():
 		
 		if cleanp1 > 0:
 			cleanp1 -= 1
+		
+		if posioncdp1 > 0:
+			posioncdp1 -= 1
+		
+		if posioncountp1 > 0:
+			player2h -= posionpassive
+			posioncountp1 -= 1
+		
+		if plaguecdp1 > 0:
+			posioncdp1 -= 1
+		
+		if plaguetimep1 > 0:
+			player2h -= plaguedmg
+			plaguetimep1 -= 1
+		
 	elif turn == "PLAYER2":
 		if vampirep2 > 0:
 			vampirep2 -= 1
@@ -244,6 +294,20 @@ func turncooldown():
 		
 		if cleanp2 > 0:
 			cleanp2 -= 1
+		
+		if posioncdp2 > 0:
+			posioncdp2 -= 1
+		
+		if poisoncountp2 > 0:
+			player1h -= posionpassive
+			poisoncountp2 -= 1
+		
+		if plaguecdp2 > 0:
+			posioncdp2 -= 1
+		
+		if plaguetimep2 > 0:
+			player1h -= plaguedmg
+			plaguetimep2 -= 1
 
 
 
@@ -396,3 +460,85 @@ func _on_light_button_up():
 		turn = "PLAYER1"
 		update_ui()
 		healanim()
+
+
+
+
+
+func _on_mini_poison_button_down():
+	if turn == "PLAYER1" and posioncdp1 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(minipotion , "scale" , Vector2(.9 ,.9) , .1)
+	if turn == "PLAYER2" and posioncdp2 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(minipotion , "scale" , Vector2(.9 ,.9) ,.1)
+
+
+
+
+
+func _on_mini_poison_button_up():
+	if turn == "PLAYER1" and posioncdp1 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(minipotion , "scale" , Vector2(1 ,1) , .1)
+		player2h -= posionpassive
+		posioncdp1 = 3
+		posioncountp1 = 3
+		turncooldown()
+		turn = "PLAYER2"
+		update_ui()
+		damageanim()
+	
+	elif turn == "PLAYER2" and posioncdp2 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(minipotion , "scale" , Vector2(1 ,1) ,.1)
+		player1h -= posionpassive
+		posioncdp2 = 3
+		poisoncountp2 = 3
+		turncooldown()
+		turn = "PLAYER1"
+		update_ui()
+		damageanim()
+
+
+
+
+
+
+func _on_plague_button_down():
+	if turn == "PLAYER1" and plaguecdp1 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(plague , "scale" , Vector2(.9 ,.9) , .1)
+	if turn == "PLAYER2" and plaguecdp2 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(plague , "scale" , Vector2(.9 ,.9) ,.1)
+
+
+
+
+func _on_plague_button_up():
+	if turn == "PLAYER1" and plaguecdp2 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(plague, "scale" , Vector2(1 ,1) , .1)
+		player2h -= plaguedmg
+		plaguecdp1 = 5
+		plaguetimep1 = 2
+		turncooldown()
+		turn = "PLAYER2"
+		update_ui()
+		damageanim()
+	
+	
+	
+	
+	
+	elif turn == "PLAYER2" and plaguecdp2 == 0:
+		var tween = get_tree().create_tween()
+		tween.tween_property(plague , "scale" , Vector2(1 ,1) ,.1)
+		player1h -= plaguedmg
+		plaguecdp2 = 5
+		plaguetimep2 = 2
+		turncooldown()
+		turn = "PLAYER1"
+		update_ui()
+		damageanim()

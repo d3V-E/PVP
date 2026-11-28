@@ -172,4 +172,8 @@ autostart = true
 [connection signal="button_up" from="Main Canvas/Clean" to="." method="_on_clean_button_up"]
 [connection signal="button_down" from="Main Canvas/Light" to="." method="_on_light_button_down"]
 [connection signal="button_up" from="Main Canvas/Light" to="." method="_on_light_button_up"]
+[connection signal="button_down" from="Main Canvas/Mini poison" to="." method="_on_mini_poison_button_down"]
+[connection signal="button_up" from="Main Canvas/Mini poison" to="." method="_on_mini_poison_button_up"]
+[connection signal="button_down" from="Main Canvas/Plague" to="." method="_on_plague_button_down"]
+[connection signal="button_up" from="Main Canvas/Plague" to="." method="_on_plague_button_up"]
 [connection signal="timeout" from="Main Canvas/AutoUpdate" to="." method="_on_auto_update_timeout"]
